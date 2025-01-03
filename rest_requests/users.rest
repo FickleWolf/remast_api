@@ -1,0 +1,7 @@
+POST http://localhost:3000/v1/users
+content-type: application/json
+
+{
+    "userId":"ddd",
+    "role":"aaa"
+}
