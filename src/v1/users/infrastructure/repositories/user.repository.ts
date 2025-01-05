@@ -18,10 +18,6 @@ export class UserRepository implements UserRepositoryInterface {
       icon_url: user.iconUrl,
       role: user.role,
       created_at: user.createdAt,
-      addresses: user.privateData.addresses,
-      bookmarks: user.privateData.bookmarks,
-      browsing_histories: user.privateData.browsingHistories,
-      push_notification_tokens: user.privateData.pushNotificationTokens,
     });
 
     return user;
@@ -35,7 +31,7 @@ export class UserRepository implements UserRepositoryInterface {
 
     for (const doc of userDocs.docs) {
       const userData = doc.data() as UserDbModel;
-      const userEntity = await this.mapToEntity(doc.id, userData);
+      const userEntity = await this.mapToUserEntity(doc.id, userData);
       if (userEntity) {
         userEntities.push(userEntity);
       }
@@ -58,67 +54,21 @@ export class UserRepository implements UserRepositoryInterface {
       return null;
     }
 
-    const userEntity = await this.mapToEntity(userId, userData);
+    const userEntity = await this.mapToUserEntity(userId, userData);
 
     return userEntity;
   }
 
-  private async mapToEntity(
+  private async mapToUserEntity(
     userId: string,
     userData: UserDbModel,
   ): Promise<UserEntity> {
-    const privateData = {
-      addresses: userData.addresses
-        ? userData.addresses.map((address) => {
-            return {
-              id: address.id,
-              firstName: address.first_name,
-              firstNameSub: address.first_name_sub,
-              lastName: address.last_name,
-              lastNameSub: address.last_name_sub,
-              phoneNumber: address.phone_number,
-              zipcode: address.zipcode,
-              prefectures: address.prefectures,
-              cities: address.cities,
-              street: address.street,
-              building: address.building,
-              default: address.default,
-            };
-          })
-        : [],
-      bookmarks: userData.bookmarks
-        ? userData.bookmarks.map((bookMark: any) => {
-            return {
-              productId: bookMark.product_id,
-              registeredAt: bookMark.registered_at,
-            };
-          })
-        : [],
-      browsingHistories: userData.browsing_histories
-        ? userData.browsing_histories.map((history: any) => {
-            return {
-              productId: history.product_id,
-              registeredAt: history.registered_at,
-            };
-          })
-        : [],
-      pushNotificationTokens: userData.push_notification_tokens
-        ? userData.push_notification_tokens.map((token: any) => {
-            return {
-              token: token.token,
-              userAgent: token.user_agent,
-              registeredAt: token.registered_at,
-            };
-          })
-        : [],
-    };
     const userEntity = new UserEntity(
       userId,
       userData.user_name,
       userData.icon_url,
       userData.role,
       userData.created_at,
-      privateData,
       userData.shop_account,
     );
 

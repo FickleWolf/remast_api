@@ -8,8 +8,5 @@ export interface UserServiceInterface {
     body: CreateUserDto,
   ): Promise<UserResponseDto>;
   getAllUsers(requesterId: string): Promise<UserResponseDto[]>;
-  getUserById(
-    requesterId: string,
-    query: GetUserByIdDto,
-  ): Promise<UserResponseDto>;
+  getUserById(query: GetUserByIdDto): Promise<UserResponseDto>;
 }

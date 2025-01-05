@@ -1,4 +1,4 @@
-import { UserRole, PrivateData } from "src/common/types/user.type";
+import { UserRole } from "src/common/types/user.type";
 
 export class UserEntity {
   id: string;
@@ -6,7 +6,6 @@ export class UserEntity {
   iconUrl: string;
   role: UserRole;
   createdAt: number;
-  privateData: PrivateData;
   shopAccount?: string;
 
   constructor(
@@ -15,7 +14,6 @@ export class UserEntity {
     iconUrl: string,
     role: UserRole,
     createdAt: number,
-    privateData: PrivateData,
     shopAccount?: string,
   ) {
     this.id = id;
@@ -23,7 +21,6 @@ export class UserEntity {
     this.iconUrl = iconUrl;
     this.role = role;
     this.createdAt = createdAt;
-    this.privateData = privateData;
     this.shopAccount = shopAccount;
   }
 
@@ -33,19 +30,5 @@ export class UserEntity {
 
   isShopRegistered(): boolean {
     return !!this.shopAccount;
-  }
-
-  toPublicData(): Omit<
-    UserEntity,
-    "privateData" | "isAdmin" | "isShopRegistered" | "toPublicData"
-  > {
-    return {
-      id: this.id,
-      userName: this.userName,
-      iconUrl: this.iconUrl,
-      role: this.role,
-      createdAt: this.createdAt,
-      shopAccount: this.shopAccount,
-    };
   }
 }

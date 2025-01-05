@@ -21,28 +21,21 @@ export class UserService implements UserServiceInterface {
     body: CreateUserDto,
   ): Promise<UserResponseDto> {
     const user = await this.createUserUseCase.execute(requesterId, body);
-    return this.toResponseDto(user, true);
+    return this.toResponseDto(user);
   }
 
   async getAllUsers(requesterId: string): Promise<UserResponseDto[]> {
     const users = await this.getAllUsersUseCase.execute(requesterId);
-    return users.map((user) => this.toResponseDto(user, true));
+    return users.map((user) => this.toResponseDto(user));
   }
 
-  async getUserById(
-    requesterId: string,
-    query: GetUserByIdDto,
-  ): Promise<UserResponseDto> {
+  async getUserById(query: GetUserByIdDto): Promise<UserResponseDto> {
     const user = await this.getUserByIdUseCase.execute(query);
 
-    const includePrivate = requesterId === query.userId;
-    return this.toResponseDto(user, includePrivate);
+    return this.toResponseDto(user);
   }
 
-  private toResponseDto(
-    userEntity: UserEntity,
-    includePrivate: boolean,
-  ): UserResponseDto {
+  private toResponseDto(userEntity: UserEntity): UserResponseDto {
     return new UserResponseDto(
       userEntity.id,
       userEntity.userName,
@@ -50,7 +43,6 @@ export class UserService implements UserServiceInterface {
       userEntity.role,
       userEntity.createdAt,
       userEntity.shopAccount,
-      includePrivate && userEntity.privateData,
     );
   }
 }

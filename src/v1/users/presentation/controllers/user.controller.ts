@@ -39,11 +39,7 @@ export class UserController {
 
   @Get("/:userId")
   @UsePipes(new ValidationPipe())
-  async getById(
-    @Req() req: Request,
-    @Param() params: GetUserByIdDto,
-  ): Promise<UserResponseDto> {
-    const requesterId = req["requesterId"];
-    return this.userService.getUserById(requesterId, params);
+  async getById(@Param() params: GetUserByIdDto): Promise<UserResponseDto> {
+    return this.userService.getUserById(params);
   }
 }

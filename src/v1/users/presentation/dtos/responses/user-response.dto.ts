@@ -1,4 +1,4 @@
-import { UserRole, PrivateData } from "src/common/types/user.type";
+import { UserRole } from "src/common/types/user.type";
 
 export class UserResponseDto {
   id: string;
@@ -7,7 +7,6 @@ export class UserResponseDto {
   role: UserRole;
   createdAt: number;
   shopAccount?: string;
-  privateData?: PrivateData;
 
   constructor(
     id: string,
@@ -16,7 +15,6 @@ export class UserResponseDto {
     role: UserRole,
     createdAt: number,
     shopAccount?: string,
-    privateData?: PrivateData,
   ) {
     this.id = id;
     this.userName = userName;
@@ -24,6 +22,5 @@ export class UserResponseDto {
     this.role = role;
     this.shopAccount = shopAccount;
     this.createdAt = createdAt;
-    this.privateData = privateData;
   }
 }

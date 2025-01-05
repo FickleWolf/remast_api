@@ -39,12 +39,6 @@ export class CreateUserUseCase {
       "",
       assignedRole,
       Math.floor(Date.now() / 1000),
-      {
-        addresses: [],
-        bookmarks: [],
-        browsingHistories: [],
-        pushNotificationTokens: [],
-      },
     );
 
     return this.userRepository.save(newUser);
