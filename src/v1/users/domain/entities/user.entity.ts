@@ -1,4 +1,5 @@
 import { UserRole } from "@common/types/user.type";
+import { ForbiddenException } from "@nestjs/common";
 
 export class UserEntity {
   id: string;
@@ -30,5 +31,31 @@ export class UserEntity {
 
   isShopRegistered(): boolean {
     return !!this.shopAccount;
+  }
+
+  updateUserName(newUserName: string): void {
+    this.userName = newUserName;
+  }
+
+  updateIconUrl(newIconUrl: string): void {
+    this.iconUrl = newIconUrl;
+  }
+
+  updateRole(newRole: UserRole, isRequesterAdmin: boolean): void {
+    if (!isRequesterAdmin) {
+      throw new ForbiddenException(
+        "You do not have permission to update user role.",
+      );
+    }
+    this.role = newRole;
+  }
+
+  updateShopAccount(newShopAccount: string, isRequesterAdmin: boolean): void {
+    if (!isRequesterAdmin) {
+      throw new ForbiddenException(
+        "You do not have permission to update shop account.",
+      );
+    }
+    this.shopAccount = newShopAccount;
   }
 }

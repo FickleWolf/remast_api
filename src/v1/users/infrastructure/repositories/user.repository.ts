@@ -13,12 +13,15 @@ export class UserRepository implements UserRepositoryInterface {
   async save(user: UserEntity): Promise<UserEntity> {
     const firestore = this.firebaseService.getFirestore();
     const userRef = firestore.collection(this.collection).doc(user.id);
-    await userRef.create({
-      user_name: user.userName,
-      icon_url: user.iconUrl,
-      role: user.role,
-      created_at: user.createdAt,
-    });
+    await userRef.set(
+      {
+        user_name: user.userName,
+        icon_url: user.iconUrl,
+        role: user.role,
+        created_at: user.createdAt,
+      },
+      { merge: true },
+    );
 
     return user;
   }
@@ -32,9 +35,8 @@ export class UserRepository implements UserRepositoryInterface {
     for (const doc of userDocs.docs) {
       const userData = doc.data() as UserDbModel;
       const userEntity = await this.mapToUserEntity(doc.id, userData);
-      if (userEntity) {
-        userEntities.push(userEntity);
-      }
+
+      if (userEntity) userEntities.push(userEntity);
     }
 
     return userEntities;
@@ -45,17 +47,10 @@ export class UserRepository implements UserRepositoryInterface {
     const userRef = firestore.collection(this.collection).doc(userId);
     const userDoc = await userRef.get();
 
-    if (!userDoc.exists) {
-      return null;
-    }
+    if (!userDoc.exists) return null;
 
     const userData = userDoc.data() as UserDbModel;
-    if (!userData) {
-      return null;
-    }
-
     const userEntity = await this.mapToUserEntity(userId, userData);
-
     return userEntity;
   }
 

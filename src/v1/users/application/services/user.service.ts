@@ -1,11 +1,13 @@
 import { Injectable } from "@nestjs/common";
 import { UserEntity } from "@v1/users/domain/entities/user.entity";
 import { CreateUserDto } from "@v1/users/presentation/dtos/requests/create-user.dto";
+import { UpdateUserDto } from "@v1/users/presentation/dtos/requests/update-user.dto";
 import { UserResponseDto } from "@v1/users/presentation/dtos/responses/user-response.dto";
 import { UserServiceInterface } from "../interfaces/user-service.interface";
 import { CreateUserUseCase } from "../usecases/create-user.usecase";
 import { GetAllUsersUseCase } from "../usecases/get-all-users.usecase";
 import { GetUserByIdUseCase } from "../usecases/get-user-by-id.usecase";
+import { UpdateUserUseCase } from "../usecases/update-user.usecase";
 
 @Injectable()
 export class UserService implements UserServiceInterface {
@@ -13,6 +15,7 @@ export class UserService implements UserServiceInterface {
     private readonly createUserUseCase: CreateUserUseCase,
     private readonly getAllUsersUseCase: GetAllUsersUseCase,
     private readonly getUserByIdUseCase: GetUserByIdUseCase,
+    private readonly updateUserUseCase: UpdateUserUseCase,
   ) {}
 
   async createUser(
@@ -30,7 +33,19 @@ export class UserService implements UserServiceInterface {
 
   async getUserById(userId: string): Promise<UserResponseDto> {
     const user = await this.getUserByIdUseCase.execute(userId);
+    return this.toResponseDto(user);
+  }
 
+  async updateUser(
+    requesterId: string,
+    userId: string,
+    body: UpdateUserDto,
+  ): Promise<UserResponseDto> {
+    const user = await this.updateUserUseCase.execute(
+      requesterId,
+      userId,
+      body,
+    );
     return this.toResponseDto(user);
   }
 

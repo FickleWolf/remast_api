@@ -5,6 +5,7 @@ import { GetAllUsersUseCase } from "./application/usecases/get-all-users.usecase
 import { GetUserByIdUseCase } from "./application/usecases/get-user-by-id.usecase";
 import { UserRepository } from "./infrastructure/repositories/user.repository";
 import { UserController } from "./presentation/controllers/user.controller";
+import { UpdateUserUseCase } from "./application/usecases/update-user.usecase";
 
 @Module({
   controllers: [UserController],
@@ -20,6 +21,7 @@ import { UserController } from "./presentation/controllers/user.controller";
     CreateUserUseCase,
     GetAllUsersUseCase,
     GetUserByIdUseCase,
+    UpdateUserUseCase,
   ],
 })
 export class UserModule {}
