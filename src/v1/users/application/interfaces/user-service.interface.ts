@@ -1,6 +1,5 @@
-import { CreateUserDto } from "../../presentation/dtos/requests/create-user.dto";
-import { GetUserByIdDto } from "../../presentation/dtos/requests/get-user-by-id.dto";
-import { UserResponseDto } from "../../presentation/dtos/responses/user-response.dto";
+import { CreateUserDto } from "@v1/users/presentation/dtos/requests/create-user.dto";
+import { UserResponseDto } from "@v1/users/presentation/dtos/responses/user-response.dto";
 
 export interface UserServiceInterface {
   createUser(
@@ -8,5 +7,5 @@ export interface UserServiceInterface {
     body: CreateUserDto,
   ): Promise<UserResponseDto>;
   getAllUsers(requesterId: string): Promise<UserResponseDto[]>;
-  getUserById(query: GetUserByIdDto): Promise<UserResponseDto>;
+  getUserById(userId: string): Promise<UserResponseDto>;
 }

@@ -1,4 +1,4 @@
-import { UserRole } from "src/common/types/user.type";
+import { UserRole } from "@common/types/user.type";
 
 export interface UserDbModel {
   user_name: string;

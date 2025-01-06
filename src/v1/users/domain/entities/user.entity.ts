@@ -1,4 +1,4 @@
-import { UserRole } from "src/common/types/user.type";
+import { UserRole } from "@common/types/user.type";
 
 export class UserEntity {
   id: string;

@@ -4,9 +4,9 @@ import {
   ConflictException,
   ForbiddenException,
 } from "@nestjs/common";
-import { UserEntity } from "src/v1/users/domain/entities/user.entity";
+import { UserEntity } from "@v1/users/domain/entities/user.entity";
+import { CreateUserDto } from "@v1/users/presentation/dtos/requests/create-user.dto";
 import { UserRepositoryInterface } from "../interfaces/user-repository.interface";
-import { CreateUserDto } from "../../presentation/dtos/requests/create-user.dto";
 
 @Injectable()
 export class CreateUserUseCase {

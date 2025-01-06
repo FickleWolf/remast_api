@@ -4,7 +4,7 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from "@nestjs/common";
-import { UserEntity } from "src/v1/users/domain/entities/user.entity";
+import { UserEntity } from "@v1/users/domain/entities/user.entity";
 import { UserRepositoryInterface } from "../interfaces/user-repository.interface";
 
 @Injectable()

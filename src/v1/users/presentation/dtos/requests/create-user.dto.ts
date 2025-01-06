@@ -1,11 +1,12 @@
-import { IsNotEmpty, IsOptional, IsIn } from "class-validator";
-import { UserRole, UserRoles } from "src/common/types/user.type";
+import { UserRoles, UserRole } from "@common/types/user.type";
+import { IsNotEmpty, IsString, IsOptional, IsIn } from "class-validator";
 
 export class CreateUserDto {
   @IsNotEmpty()
+  @IsString()
   userId: string;
 
   @IsOptional()
   @IsIn(UserRoles)
-  role: UserRole | undefined;
+  role: UserRole;
 }

@@ -1,8 +1,8 @@
+import { FirebaseService } from "@common/providers/firebase.service";
 import { Injectable } from "@nestjs/common";
-import { FirebaseService } from "src/common/providers/firebase.service";
-import { UserEntity } from "../../domain/entities/user.entity";
-import { UserRepositoryInterface } from "../../application/interfaces/user-repository.interface";
-import { UserDbModel } from "src/v1/users/infrastructure/models/user-db.model";
+import { UserRepositoryInterface } from "@v1/users/application/interfaces/user-repository.interface";
+import { UserEntity } from "@v1/users/domain/entities/user.entity";
+import { UserDbModel } from "../models/user-db.model";
 
 @Injectable()
 export class UserRepository implements UserRepositoryInterface {

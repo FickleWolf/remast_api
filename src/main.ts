@@ -1,10 +1,10 @@
 import "dotenv/config";
 import { ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
+import { AllExceptionsFilter } from "@common/exceptions/all-exceptions.filter";
+import { AuthGuard } from "@common/guards/auth.guard";
+import { FirebaseService } from "@common/providers/firebase.service";
 import { AppModule } from "./app.module";
-import { AllExceptionsFilter } from "./common/exceptions/all-exceptions.filter";
-import { FirebaseService } from "./common/providers/firebase.service";
-import { AuthGuard } from "./common/guards/auth.guard";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

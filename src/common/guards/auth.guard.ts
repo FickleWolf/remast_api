@@ -1,11 +1,10 @@
+import { FirebaseService } from "@common/providers/firebase.service";
 import {
   Injectable,
   CanActivate,
   ExecutionContext,
   UnauthorizedException,
 } from "@nestjs/common";
-import { Request } from "express";
-import { FirebaseService } from "../providers/firebase.service";
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -22,7 +21,6 @@ export class AuthGuard implements CanActivate {
     }
 
     const authorization = request.headers["authorization"];
-
     if (!authorization || !authorization.startsWith("Bearer ")) {
       throw new UnauthorizedException(
         "Missing or invalid authorization header",
@@ -30,13 +28,19 @@ export class AuthGuard implements CanActivate {
     }
 
     const token = authorization.split(" ")[1];
+    if (!token) {
+      throw new UnauthorizedException("Bearer token is missing");
+    }
 
     try {
       const decodedToken = await this.firebaseService.verifyToken(token);
       request["requesterId"] = decodedToken.uid;
       return true;
     } catch (error) {
-      throw new UnauthorizedException("Invalid or expired token", error);
+      throw new UnauthorizedException({
+        message: "Invalid or expired token",
+        error: error.message,
+      });
     }
   }
 }

@@ -1,8 +1,7 @@
 import { Injectable } from "@nestjs/common";
-import { UserEntity } from "../../domain/entities/user.entity";
-import { CreateUserDto } from "../../presentation/dtos/requests/create-user.dto";
-import { GetUserByIdDto } from "../../presentation/dtos/requests/get-user-by-id.dto";
-import { UserResponseDto } from "../../presentation/dtos/responses/user-response.dto";
+import { UserEntity } from "@v1/users/domain/entities/user.entity";
+import { CreateUserDto } from "@v1/users/presentation/dtos/requests/create-user.dto";
+import { UserResponseDto } from "@v1/users/presentation/dtos/responses/user-response.dto";
 import { UserServiceInterface } from "../interfaces/user-service.interface";
 import { CreateUserUseCase } from "../usecases/create-user.usecase";
 import { GetAllUsersUseCase } from "../usecases/get-all-users.usecase";
@@ -29,8 +28,8 @@ export class UserService implements UserServiceInterface {
     return users.map((user) => this.toResponseDto(user));
   }
 
-  async getUserById(query: GetUserByIdDto): Promise<UserResponseDto> {
-    const user = await this.getUserByIdUseCase.execute(query);
+  async getUserById(userId: string): Promise<UserResponseDto> {
+    const user = await this.getUserByIdUseCase.execute(userId);
 
     return this.toResponseDto(user);
   }

@@ -1,19 +1,17 @@
+import { RequesterId } from "@common/decorators/requester-id.decorator";
 import {
   Controller,
-  Get,
-  Req,
-  UsePipes,
-  ValidationPipe,
-  Param,
   Inject,
   Post,
   Body,
+  Get,
+  Param,
+  Patch,
 } from "@nestjs/common";
-import { Request } from "express";
-import { GetUserByIdDto } from "../dtos/requests/get-user-by-id.dto";
-import { UserResponseDto } from "../dtos/responses/user-response.dto";
-import { UserServiceInterface } from "../../application/interfaces/user-service.interface";
+import { UserServiceInterface } from "@v1/users/application/interfaces/user-service.interface";
 import { CreateUserDto } from "../dtos/requests/create-user.dto";
+import { UpdateUserDto } from "../dtos/requests/update-user.dto";
+import { UserResponseDto } from "../dtos/responses/user-response.dto";
 
 @Controller("v1/users")
 export class UserController {
@@ -24,22 +22,28 @@ export class UserController {
 
   @Post("/")
   async create(
-    @Req() req: Request,
+    @RequesterId() requesterId: string,
     @Body() createUserDto: CreateUserDto,
   ): Promise<UserResponseDto> {
-    const requesterId = req["requesterId"];
     return this.userService.createUser(requesterId, createUserDto);
   }
 
   @Get("/")
-  async getAll(@Req() req: Request): Promise<UserResponseDto[]> {
-    const requesterId = req["requesterId"];
+  async getAll(@RequesterId() requesterId: string): Promise<UserResponseDto[]> {
     return this.userService.getAllUsers(requesterId);
   }
 
   @Get("/:userId")
-  @UsePipes(new ValidationPipe())
-  async getById(@Param() params: GetUserByIdDto): Promise<UserResponseDto> {
-    return this.userService.getUserById(params);
+  async getById(@Param("userId") userId: string): Promise<UserResponseDto> {
+    return this.userService.getUserById(userId);
+  }
+
+  @Patch("/:userId")
+  async update(
+    @RequesterId() requesterId: string,
+    @Param("userId") userId: string,
+    @Body() updateUserDto: UpdateUserDto,
+  ): Promise<UserResponseDto> {
+    return this.userService.updateUser(requesterId, userId, updateUserDto);
   }
 }

@@ -1,6 +1,5 @@
 import { Inject, Injectable, NotFoundException } from "@nestjs/common";
-import { UserEntity } from "src/v1/users/domain/entities/user.entity";
-import { GetUserByIdDto } from "../../presentation/dtos/requests/get-user-by-id.dto";
+import { UserEntity } from "@v1/users/domain/entities/user.entity";
 import { UserRepositoryInterface } from "../interfaces/user-repository.interface";
 
 @Injectable()
@@ -10,9 +9,7 @@ export class GetUserByIdUseCase {
     private readonly userRepository: UserRepositoryInterface,
   ) {}
 
-  async execute(query: GetUserByIdDto): Promise<UserEntity> {
-    const { userId } = query;
-
+  async execute(userId: string): Promise<UserEntity> {
     const user = await this.userRepository.findById(userId);
 
     if (!user) {
